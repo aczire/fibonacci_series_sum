@@ -63,7 +63,13 @@ def apigw_event():
 
 
 def test_lambda_handler(apigw_event, mocker):
+    '''
+    Sum of all even numbers till 5 in a fib series is 2.
+    Trying to find the sum with the help of (num & 0x01) logic.
+    The reason being, every odd number in binary ends with 0x01
+    So test the last bit to see whether the number is odd or even
 
+    '''
     ret = app.lambda_handler(apigw_event, "")
     data = json.loads(ret["body"])
 
@@ -73,26 +79,37 @@ def test_lambda_handler(apigw_event, mocker):
 
 
 def test_lambda_handler_with_temp(apigw_event, mocker):
+    '''
+    Sum of all even numbers till 5 in a fib series is 2.
+    Trying to find the sum with the help of a temp variable
 
+    '''
     ret = app.lambda_handler(apigw_event, "")
     data = json.loads(ret["body"])
 
     assert ret["statusCode"] == 200
-    assert "sum_even" in ret["body"]
+    assert "sum_even_temp" in ret["body"]
     assert data["sum_even_temp"]['sum'] == 2
 
 
 def test_lambda_handler_with_mod(apigw_event, mocker):
+    '''
+    Sum of all even numbers till 5 in a fib series is 2.
+    Trying to find the number odd or even using num%2 logic
 
+    '''
     ret = app.lambda_handler(apigw_event, "")
     data = json.loads(ret["body"])
 
     assert ret["statusCode"] == 200
-    assert "sum_even" in ret["body"]
+    assert "sum_even_mod" in ret["body"]
     assert data["sum_even_mod"]['sum'] == 2
 
 
 def test_lambda_handler_input_8(apigw_event, mocker):
+    '''
+    Sum of all even numbers till 8 in a fib series is 10.
+    '''
     apigw_event['body'] = '{ "max_series": 8}'
     ret = app.lambda_handler(apigw_event, "")
     data = json.loads(ret["body"])
@@ -103,6 +120,9 @@ def test_lambda_handler_input_8(apigw_event, mocker):
 
 
 def test_lambda_handler_input_36(apigw_event, mocker):
+    '''
+    Sum of all even numbers till 36 in a fib series is 44
+    '''
     apigw_event['body'] = '{ "max_series": 36}'
     ret = app.lambda_handler(apigw_event, "")
     data = json.loads(ret["body"])
