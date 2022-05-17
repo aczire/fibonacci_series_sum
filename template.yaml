@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  fib_even_max
+
+  Sample SAM Template for fib_even_max
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  FibEvenMax:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: fib_even_max/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+
+Outputs:
+  FibEvenMaxApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  FibEvenMaxFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt FibEvenMax.Arn
+  FibEvenMaxIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt FibEvenMaxRole.Arn
